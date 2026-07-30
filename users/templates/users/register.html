@@ -1,0 +1,92 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>☕ Register · Coffee Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+  </head>
+  <body class="min-h-screen flex font-sans bg-[#faf7f2]">
+    <div class="flex-1 flex items-center justify-center p-6 lg:p-12">
+      <div class="w-full max-w-md anim-fade">
+        <div class="text-center lg:hidden mb-8">
+          <span class="text-5xl">☕</span>
+          <h2 class="text-2xl font-bold text-[#4a2c2a] mt-2">Coffee Shop</h2>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 anim-pulse">
+          <div class="text-center mb-8">
+            <span class="text-4xl block mb-2">🎉</span>
+            <h1 class="text-2xl font-bold text-[#4a2c2a]">Create Account</h1>
+            <p class="text-gray-500 text-sm mt-1">Join us on this coffee journey ☕</p>
+          </div>
+
+          <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+              <div class="bg-red-50 border border-red-200 rounded-xl p-3 text-sm text-red-700">
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% for field in form %}
+              <div>
+                {{ field }}
+                {% if field.errors %}
+                  <p class="text-red-500 text-xs mt-1">{% for e in field.errors %}{{ e }}{% endfor %}</p>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            <button
+              type="submit"
+              class="w-full py-3 px-6 rounded-xl text-white font-semibold text-sm tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-95"
+              style="background: linear-gradient(135deg, #4a2c2a, #6d4c41)"
+            >
+              🚀 Create Account 🚀
+            </button>
+          </form>
+
+          <p class="text-center text-sm text-gray-500 mt-8">
+            Already have an account? 🤔
+            <a
+              href="{% url 'login' %}"
+              class="font-semibold text-[#6d4c41] hover:text-[#4a2c2a] transition-colors"
+            >
+              Sign in ✨
+            </a>
+          </p>
+        </div>
+
+        <p class="text-center text-xs text-gray-400 mt-6">
+          ☕ Brewed with love · Coffee Shop
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center"
+      style="background: linear-gradient(135deg, #6d4c41 0%, #4a2c2a 50%, #3e2723 100%)"
+    >
+      <div class="pattern-overlay"></div>
+      <div class="relative z-10 text-center px-12 anim-slide-r">
+        <div class="text-8xl mb-6 anim-float">🎊</div>
+        <h2 class="text-4xl font-bold text-white mb-3">Join Our Club!</h2>
+        <p class="text-[#d7ccc8] text-lg max-w-sm mx-auto leading-relaxed">
+          Get exclusive offers & the best coffee experience 🌟
+        </p>
+        <div class="mt-10 flex justify-center gap-6 text-3xl opacity-70">
+          <span class="hover:opacity-100 transition hover:scale-110 cursor-default">☕</span>
+          <span class="hover:opacity-100 transition hover:scale-110 cursor-default">🧁</span>
+          <span class="hover:opacity-100 transition hover:scale-110 cursor-default">🍵</span>
+          <span class="hover:opacity-100 transition hover:scale-110 cursor-default">🥐</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
