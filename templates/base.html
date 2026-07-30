@@ -11,6 +11,7 @@
       ☕
       {%if user.is_authenticated%}
         <span>👋 {{user.username}}</span>
+        <a href="{%url 'logout'%}" class="hover:text-amber-600 transition">🚪 Logout</a>
       {%else%}
         <a href="{%url 'login'%}" class="hover:text-amber-600 transition">🔐 Login</a>
         <a href="{%url 'register'%}" class="hover:text-amber-600 transition">📝 Register</a>
