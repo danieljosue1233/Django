@@ -7,6 +7,7 @@
     <title>☕ Login · Coffee Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+    <script src="{% static 'js/auth.js' %}" defer></script>
   </head>
   <body class="min-h-screen flex font-sans bg-[#faf7f2]">
     <div
@@ -63,27 +64,27 @@
           </div>
 
           <form method="post" class="space-y-4">
-            {% csrf_token %}
-
-            {% if form.non_field_errors %}
-              <div class="bg-red-50 border border-red-200 rounded-xl p-3 text-sm text-red-700">
-                {% for error in form.non_field_errors %}
-                  {{ error }}
-                {% endfor %}
-              </div>
+            {% csrf_token %} {% if form.non_field_errors %}
+            <div
+              class="bg-red-50 border border-red-200 rounded-xl p-3 text-sm text-red-700"
+            >
+              {% for error in form.non_field_errors %} {{ error }} {% endfor %}
+            </div>
             {% endif %}
 
-            <div>
-              {{ form.username }}
-              {% if form.username.errors %}
-                <p class="text-red-500 text-xs mt-1">{% for e in form.username.errors %}{{ e }}{% endfor %}</p>
+            <div class="{% if form.username.errors %}field-error{% endif %}">
+              {{ form.username }} {% if form.username.errors %}
+              <p class="form-error">
+                {% for e in form.username.errors %}{{ e }}{% endfor %}
+              </p>
               {% endif %}
             </div>
 
-            <div>
-              {{ form.password }}
-              {% if form.password.errors %}
-                <p class="text-red-500 text-xs mt-1">{% for e in form.password.errors %}{{ e }}{% endfor %}</p>
+            <div class="{% if form.password.errors %}field-error{% endif %}">
+              {{ form.password }} {% if form.password.errors %}
+              <p class="form-error">
+                {% for e in form.password.errors %}{{ e }}{% endfor %}
+              </p>
               {% endif %}
             </div>
 

@@ -7,6 +7,7 @@
     <title>☕ Register · Coffee Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+    <script src="{% static 'js/auth.js' %}" defer></script>
   </head>
   <body class="min-h-screen flex font-sans bg-[#faf7f2]">
     <div class="flex-1 flex items-center justify-center p-6 lg:p-12">
@@ -20,27 +21,26 @@
           <div class="text-center mb-8">
             <span class="text-4xl block mb-2">🎉</span>
             <h1 class="text-2xl font-bold text-[#4a2c2a]">Create Account</h1>
-            <p class="text-gray-500 text-sm mt-1">Join us on this coffee journey ☕</p>
+            <p class="text-gray-500 text-sm mt-1">
+              Join us on this coffee journey ☕
+            </p>
           </div>
 
-          <form method="post" class="space-y-4">
-            {% csrf_token %}
-
-            {% if form.non_field_errors %}
-              <div class="bg-red-50 border border-red-200 rounded-xl p-3 text-sm text-red-700">
-                {% for error in form.non_field_errors %}
-                  {{ error }}
-                {% endfor %}
-              </div>
-            {% endif %}
-
-            {% for field in form %}
-              <div>
-                {{ field }}
-                {% if field.errors %}
-                  <p class="text-red-500 text-xs mt-1">{% for e in field.errors %}{{ e }}{% endfor %}</p>
-                {% endif %}
-              </div>
+          <form method="post" class="space-y-4" novalidate>
+            {% csrf_token %} {% if form.non_field_errors %}
+            <div
+              class="bg-red-50 border border-red-200 rounded-xl p-3 text-sm text-red-700"
+            >
+              {% for error in form.non_field_errors %} {{ error }} {% endfor %}
+            </div>
+            {% endif %} {% for field in form %}
+            <div class="{% if field.errors %}field-error{% endif %}">
+              {{ field }} {% if field.errors %}
+              <p class="form-error">
+                {% for e in field.errors %}{{ e }}{% endfor %}
+              </p>
+              {% endif %}
+            </div>
             {% endfor %}
 
             <button
@@ -71,7 +71,14 @@
 
     <div
       class="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center"
-      style="background: linear-gradient(135deg, #6d4c41 0%, #4a2c2a 50%, #3e2723 100%)"
+      style="
+        background: linear-gradient(
+          135deg,
+          #6d4c41 0%,
+          #4a2c2a 50%,
+          #3e2723 100%
+        );
+      "
     >
       <div class="pattern-overlay"></div>
       <div class="relative z-10 text-center px-12 anim-slide-r">
@@ -81,10 +88,22 @@
           Get exclusive offers & the best coffee experience 🌟
         </p>
         <div class="mt-10 flex justify-center gap-6 text-3xl opacity-70">
-          <span class="hover:opacity-100 transition hover:scale-110 cursor-default">☕</span>
-          <span class="hover:opacity-100 transition hover:scale-110 cursor-default">🧁</span>
-          <span class="hover:opacity-100 transition hover:scale-110 cursor-default">🍵</span>
-          <span class="hover:opacity-100 transition hover:scale-110 cursor-default">🥐</span>
+          <span
+            class="hover:opacity-100 transition hover:scale-110 cursor-default"
+            >☕</span
+          >
+          <span
+            class="hover:opacity-100 transition hover:scale-110 cursor-default"
+            >🧁</span
+          >
+          <span
+            class="hover:opacity-100 transition hover:scale-110 cursor-default"
+            >🍵</span
+          >
+          <span
+            class="hover:opacity-100 transition hover:scale-110 cursor-default"
+            >🥐</span
+          >
         </div>
       </div>
     </div>
