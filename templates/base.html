@@ -5,18 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coffee Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: "#eff6ff",
+                100: "#dbeafe",
+                200: "#bfdbfe",
+                300: "#93c5fd",
+                400: "#60a5fa",
+                500: "#3b82f6",
+                600: "#2563eb",
+                700: "#1d4ed8",
+                800: "#1e40af",
+                900: "#1e3a8a",
+              },
+            },
+          },
+        },
+      };
+    </script>
   </head>
   <body>
-    <div class="flex items-center gap-4">
-      ☕
-      {%if user.is_authenticated%}
+    <nav class="flex items-center justify-between px-4 py-3 shadow-sm">
+      <div class="flex items-center gap-2">
+        <span class="text-3xl">☕</span>
+        <span class="text-xl font-bold text-black">Coffee Shop</span>
+      </div>
+      <div class="flex items-center gap-4">
+        {%if user.is_authenticated%}
         <span>👋 {{user.username}}</span>
-        <a href="{%url 'logout'%}" class="hover:text-amber-600 transition">🚪 Logout</a>
-      {%else%}
-        <a href="{%url 'login'%}" class="hover:text-amber-600 transition">🔐 Login</a>
-        <a href="{%url 'register'%}" class="hover:text-amber-600 transition">📝 Register</a>
-      {%endif%}
-    </div>
+        <a
+          href="{%url 'my_order'%}"
+          class="rounded bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-primary-700 hover:shadow-lg"
+        >
+          🛒 My Order
+        </a>
+        <form action="{%url 'logout'%}" method="post">
+          {%csrf_token%}
+          <button type="submit" class="hover:text-primary-600 transition">
+            🔓 Logout
+          </button>
+        </form>
+        {%else%}
+        <a href="{%url 'login'%}" class="hover:text-primary-600 transition"
+          >🔐 Login</a
+        >
+        <a href="{%url 'register'%}" class="hover:text-primary-600 transition"
+          >📝 Register</a
+        >
+        {%endif%}
+      </div>
+    </nav>
     <div class="container mx-auto px-4">
       {%block content %}{%endblock content %}
     </div>

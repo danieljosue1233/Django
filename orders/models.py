@@ -12,6 +12,10 @@ class Order(models.Model):
     def __str__(self):
         return f"order{self.id} by {self.user}"
 
+    @property
+    def total(self):
+        return sum(item.subtotal for item in self.orderproduct_set.all())
+
 
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -20,3 +24,7 @@ class OrderProduct(models.Model):
 
     def __str__(self) -> str:
         return f"{self.order}-{self.product}"
+
+    @property
+    def subtotal(self):
+        return self.quantity * self.product.price

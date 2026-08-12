@@ -1,0 +1,119 @@
+{% extends "base.html" %} {% block content %}
+<div class="mx-auto max-w-3xl py-8">
+  <div
+    class="mb-6 flex items-center gap-3 rounded-2xl bg-primary-50 px-6 py-4 ring-1 ring-primary-200"
+  >
+    <span class="text-3xl">🛒</span>
+    <div>
+      <h2 class="text-2xl font-bold text-primary-900">Mi Orden Actual</h2>
+      <p class="text-sm text-primary-700">Revisa los productos de tu pedido</p>
+    </div>
+  </div>
+
+  {% if not order %}
+  <div
+    class="flex flex-col items-center rounded-2xl border-2 border-dashed border-gray-300 bg-white px-6 py-16 text-center"
+  >
+    <span class="mb-4 text-5xl">☕</span>
+    <h3 class="text-lg font-semibold text-gray-800">
+      No tienes ninguna orden activa
+    </h3>
+    <p class="mt-1 text-sm text-gray-500">
+      ¡Agrega algún producto para empezar tu pedido!
+    </p>
+    <a
+      href="{% url 'list_product' %}"
+      class="mt-6 rounded-lg bg-primary-600 px-6 py-2.5 text-sm font-medium text-white shadow transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-700 hover:shadow-lg"
+    >
+      Ver productos
+    </a>
+  </div>
+
+  {% elif not order.orderproduct_set.all %}
+  <div
+    class="flex flex-col items-center rounded-2xl border-2 border-dashed border-gray-300 bg-white px-6 py-16 text-center"
+  >
+    <span class="mb-4 text-5xl">🛍️</span>
+    <h3 class="text-lg font-semibold text-gray-800">Tu orden está vacía</h3>
+    <p class="mt-1 text-sm text-gray-500">
+      Aún no has agregado productos a tu orden.
+    </p>
+    <a
+      href="{% url 'list_product' %}"
+      class="mt-6 rounded-lg bg-primary-600 px-6 py-2.5 text-sm font-medium text-white shadow transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-700 hover:shadow-lg"
+    >
+      Explorar productos
+    </a>
+  </div>
+
+  {% else %}
+  <div class="overflow-hidden rounded-2xl bg-white shadow-lg">
+    <div
+      class="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-gray-100 bg-gray-50 px-6 py-4"
+    >
+      <span class="text-sm text-gray-600">
+        <span class="font-medium text-gray-800">Usuario:</span>
+        {{ order.user.username }}
+      </span>
+      <span class="text-sm text-gray-600">
+        <span class="font-medium text-gray-800">Fecha:</span>
+        {{ order.order_date }}
+      </span>
+      <span
+        class="ml-auto inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700"
+      >
+        <span class="h-2 w-2 rounded-full bg-green-500"></span>
+        Activa
+      </span>
+    </div>
+
+    <ul class="divide-y divide-gray-100">
+      {% for product_order in order.orderproduct_set.all %}
+      <li
+        class="flex items-center gap-4 px-6 py-4 transition hover:bg-primary-50"
+      >
+        <div
+          class="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-primary-100 text-3xl"
+        >
+          {% if product_order.product.photo %}
+          <img
+            src="{{ product_order.product.photo.url }}"
+            alt="{{ product_order.product.name }}"
+            class="h-full w-full object-cover"
+          />
+          {% else %} ☕ {% endif %}
+        </div>
+        <div class="min-w-0 flex-1">
+          <h4 class="truncate font-semibold text-gray-900">
+            {{ product_order.product.name }}
+          </h4>
+          <p class="truncate text-sm text-gray-500">
+            {{ product_order.product.description }}
+          </p>
+          <p class="mt-1 text-sm text-gray-600">
+            <span class="font-medium text-gray-800">Cantidad:</span>
+            {{ product_order.quantity }}
+          </p>
+        </div>
+        <div class="text-right">
+          <p class="text-sm text-gray-500">
+            ${{ product_order.product.price|floatformat:2 }} c/u
+          </p>
+          <p class="text-lg font-bold text-primary-700">
+            ${{ product_order.subtotal|floatformat:2 }}
+          </p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div
+      class="flex items-center justify-between bg-primary-600 px-6 py-5 text-white"
+    >
+      <span class="text-lg font-semibold">Total</span>
+      <span class="text-2xl font-bold">${{ order.total|floatformat:2 }}</span>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock content %}
