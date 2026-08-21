@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .forms import OrderProductForm
 from .models import Order
+from .serializers import OrderCreateSerializer
 
 
 class MyOrderView(LoginRequiredMixin, DetailView):
@@ -29,3 +32,33 @@ class CreateOrderProductView(LoginRequiredMixin, CreateView):
         form.instance.quantity = 1
         form.save()
         return super().form_valid(form)
+
+
+class OrderCreateAPI(APIView):
+
+    authentication_classes = ()
+    permission_classes = ()
+
+    def post(self, request, *args, **kwargs):
+        serializer = OrderCreateSerializer(
+            data=request.data, context={"request": request}
+        )
+        if serializer.is_valid():
+            order = serializer.save()
+            return Response(
+                {
+                    "id": order.id,
+                    "user": order.user.id,
+                    "total": str(order.total),
+                    "items": [
+                        {
+                            "product": item.product.name,
+                            "quantity": item.quantity,
+                            "subtotal": str(item.subtotal),
+                        }
+                        for item in order.orderproduct_set.all()
+                    ],
+                },
+                status=201,
+            )
+        return Response(serializer.errors, status=400)

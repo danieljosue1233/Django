@@ -113,6 +113,21 @@ files = [
 django = ">=5.2"
 
 [[package]]
+name = "djangorestframework"
+version = "3.18.0"
+description = "Web APIs for Django, made easy."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "djangorestframework-3.18.0-py3-none-any.whl", hash = "sha256:381fc44d3249c9565c5f723850855b734e99030eb30957a49f506d3fe11d7dcb"},
+    {file = "djangorestframework-3.18.0.tar.gz", hash = "sha256:2323a5111837e0b784dcb8323abc78ecc54fa2a5af7aff2677cf50cdd849477f"},
+]
+
+[package.dependencies]
+django = ">=5.2"
+
+[[package]]
 name = "executing"
 version = "2.2.1"
 description = "Get the currently executing AST node of a frame, and other information"
@@ -523,4 +538,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "f69715b4b6474d8681800fdecc50ef283ffc66231bad7d60cd3ddf39baee55f6"
+content-hash = "fc594f939d13da90e04dbb97da0ced1a19751e09ec56266c63ab47f394c2ed9f"
